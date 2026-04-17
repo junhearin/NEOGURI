@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AION2 RAID</title>
+<style>
+
+body{
+font-family:Arial;
+background:#1b1b1b;
+color:white;
+text-align:center;
+}
+
+button{
+padding:10px 20px;
+margin:5px;
+font-size:16px;
+}
+
+.card{
+background:#2a2a2a;
+padding:15px;
+margin:10px;
+border-radius:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>AION2 Legion Raid</h1>
+
+<button onclick="showParty()">PARTY</button>
+<button onclick="showRaid()">RAID</button>
+
+<div id="content"></div>
+
+<script>
+
+function showParty(){
+document.getElementById("content").innerHTML =
+`
+<div class="card">
+<h2>불의 사원</h2>
+탱커 : <input placeholder="닉네임">
+힐러 : <input placeholder="닉네임">
+딜러 : <input placeholder="닉네임">
+</div>
+`;
+}
+
+function showRaid(){
+document.getElementById("content").innerHTML =
+`
+<div class="card">
+<h2>이번주 레이드</h2>
+토요일 21:00
+</div>
+`;
+}
+
+</script>
+
+</body>
+</html>
