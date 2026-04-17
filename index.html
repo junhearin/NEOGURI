@@ -1,64 +1,115 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>AION2 RAID</title>
-<style>
+<meta charset="UTF-8">
+<title>아이온2 레이드 신청</title>
 
+<style>
 body{
-font-family:Arial;
-background:#1b1b1b;
-color:white;
+font-family:sans-serif;
+max-width:700px;
+margin:auto;
+padding:30px;
+}
+
+input,select,button{
+padding:10px;
+margin:5px;
+}
+
+table{
+width:100%;
+margin-top:20px;
+border-collapse:collapse;
+}
+
+td,th{
+border:1px solid #ddd;
+padding:10px;
 text-align:center;
 }
-
-button{
-padding:10px 20px;
-margin:5px;
-font-size:16px;
-}
-
-.card{
-background:#2a2a2a;
-padding:15px;
-margin:10px;
-border-radius:10px;
-}
-
 </style>
+
 </head>
 
 <body>
 
-<h1>AION2 Legion Raid</h1>
+<h2>아이온2 레이드 신청</h2>
 
-<button onclick="showParty()">PARTY</button>
-<button onclick="showRaid()">RAID</button>
+<input id="name" placeholder="닉네임">
 
-<div id="content"></div>
+<select id="class">
+<option>탱커</option>
+<option>딜러</option>
+<option>힐러</option>
+</select>
+
+<input id="time" placeholder="가능 시간">
+
+<button onclick="submitRaid()">신청</button>
+
+<table id="raidTable">
+<tr>
+<th>닉네임</th>
+<th>직업</th>
+<th>시간</th>
+</tr>
+</table>
 
 <script>
 
-function showParty(){
-document.getElementById("content").innerHTML =
-`
-<div class="card">
-<h2>불의 사원</h2>
-탱커 : <input placeholder="닉네임">
-힐러 : <input placeholder="닉네임">
-딜러 : <input placeholder="닉네임">
-</div>
-`;
+const API="https://script.google.com/macros/s/AKfycbzvC6_VzZJsQA1ZdNwx3wjGdiUgK1Dl1U-c5FXzsiQ3FVXEg5fGi0lPy_dW-6PP-Rn2/exec"
+
+function submitRaid(){
+
+const name=document.getElementById("name").value
+const job=document.getElementById("class").value
+const time=document.getElementById("time").value
+
+fetch(API,{
+method:"POST",
+body:JSON.stringify({
+name:name,
+class:job,
+time:time
+})
+}).then(()=>{
+loadData()
+})
+
 }
 
-function showRaid(){
-document.getElementById("content").innerHTML =
+function loadData(){
+
+fetch(API)
+.then(res=>res.json())
+.then(data=>{
+
+const table=document.getElementById("raidTable")
+
+table.innerHTML=`<tr>
+<th>닉네임</th>
+<th>직업</th>
+<th>시간</th>
+</tr>`
+
+for(let i=1;i<data.length;i++){
+
+table.innerHTML+=`
+<tr>
+<td>${data[i][0]}</td>
+<td>${data[i][1]}</td>
+<td>${data[i][2]}</td>
+</tr>
 `
-<div class="card">
-<h2>이번주 레이드</h2>
-토요일 21:00
-</div>
-`;
+
 }
+
+})
+
+}
+
+loadData()
 
 </script>
 
